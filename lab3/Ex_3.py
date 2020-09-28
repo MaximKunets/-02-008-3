@@ -17,6 +17,14 @@ def cloud(a, b, c, m):
     ellipse(screen, (175, 218, 252), [a - 10 * c, b - 9 * m, 30 * c, 20 * m])
 
 
+def cloud_1(a, b, c, m):
+    ellipse(s, (175, 218, 252), [a, b, 50 * c, 18 * m])
+    ellipse(s, (175, 218, 252), [a - 30 * c, b + 5 * m, 50 * c, 25 * m])
+    ellipse(s, (175, 218, 252), [a - 70 * c, b + 2 * m, 80 * c, 20 * m])
+    ellipse(s, (175, 218, 252), [a - 35 * c, b - 11 * m, 29 * c, 20 * m])
+    ellipse(s, (175, 218, 252), [a - 10 * c, b - 9 * m, 30 * c, 20 * m])
+
+
 print(23)
 pygame.init()
 
@@ -25,15 +33,14 @@ x = 800
 y = 500
 
 screen = pygame.display.set_mode((x, y))
-s = pygame.Surface((x, y))
-rect(s, (255, 255, 255), (0, 0, x, y))
-s.set_alpha(80)
+s = pygame.Surface((x, 200))
+s.set_colorkey((255, 255, 255))
+rect(s, (255, 255, 255), (0, 0, x, 200))
+s.set_alpha(120)
 
 rect(screen, (253, 222, 173), (0, 0, x, y))
 polygon(screen, (250, 219, 200), [(0, 90), (800, 110), (800, 220), (0, 200)])
 circle(screen, (248, 243, 43), (370, 100), 40)
-
-# screen.blit(s, (0, 0))
 
 # orange mountains
 polygon(screen, (255, 164, 32),
@@ -48,8 +55,9 @@ polygon(screen, (253, 222, 173), [(0, 0), (0, 90), (150, 95), (190, 50), (200, 0
 
 cloud(400, 100, 0.7, 0.7)
 cloud(200, 20, 1, 1)
-cloud(500, 50, 0.8, 0.8)
+cloud_1(500, 50, 0.8, 0.8)
 cloud(320, 90, 0.55, 0.55)
+screen.blit(s, (0, 0))
 
 # purple mountains
 polygon(screen, (140, 69, 102),
