@@ -26,9 +26,9 @@ BLACK = (0, 0, 0)
 COLORS = [RED, BLUE, YELLOW, GREEN, MAGENTA, CYAN]
 
 
-def new_ball(x, y, r, color):
-    col = COLORS[color]
-    circle(screen, col, (int(x), int(y)), int(r))
+def new_ball(x0, y0, r0, color0):
+    col = COLORS[color0]
+    circle(screen, col, (int(x0), int(y0)), int(r0))
 
 
 '''
@@ -36,17 +36,17 @@ def new_ball(x, y, r, color):
 Функция рисует шар на экране
 screen - экран
 col - цвет, заданный в формате, подходящем для pygame.color
-x,y - координаты центра шара
-r - радиус шара
+x0,y0 - координаты центра шара
+r0 - радиус шара
 COLORS - кортеж цветов
 '''
 
 
-def new_triangle(x, y, r, f, color):
-    col = COLORS[color]
-    polygon(screen, col, [(int(x - r * np.sin(f)), int(y - r * np.cos(f))),
-                          (int(x + r * np.cos(np.pi / 6 - f)), int(y + r * np.sin(np.pi / 6 - f))),
-                          (int(x - r * np.cos(np.pi / 6 + f)), int(y + r * np.sin(np.pi / 6 + f)))])
+def new_triangle(x0, y0, r0, f0, color0):
+    col = COLORS[color0]
+    polygon(screen, col, [(int(x0 - r0 * np.sin(f)), int(y0 - r0 * np.cos(f))),
+                          (int(x0 + r0 * np.cos(np.pi / 6 - f0)), int(y0 + r0 * np.sin(np.pi / 6 - f0))),
+                          (int(x0 - r0 * np.cos(np.pi / 6 + f0)), int(y0 + r0 * np.sin(np.pi / 6 + f0)))])
 
 
 '''
@@ -54,18 +54,18 @@ def new_triangle(x, y, r, f, color):
 Функция рисует правильный треугольник на экране
 screen - экран
 col - цвет, заданный в формате, подходящем для pygame.color
-x,y - координаты центра масс треугольника
-r - длина стороны
+x0,y0 - координаты центра масс треугольника
+r0 - длина стороны
 COLORS - кортеж цветов
-f - угол поворота треугольника относительно вертикальной оси 
+f0 - угол поворота треугольника относительно вертикальной оси 
     (начальное положение - одна вершина сверху, две снизу, основание горизонтально)
 '''
 
 
-def score(pos, x, y, r):
+def score(pos, x0, y0, r0):
     x1 = pos[0]
     y1 = pos[1]
-    if (x - x1) * (x - x1) + (y - y1) * (y - y1) <= r * r:
+    if (x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1) <= r0 * r0:
         return 1
     else:
         return 0
@@ -74,8 +74,8 @@ def score(pos, x, y, r):
 '''
 
 Функция определяет попадание по шару и начисляет очки за это
-x,y - координаты центра шара
-r - радиус шара
+x0,y0 - координаты центра шара
+r0 - радиус шара
 pos - кортеж координат (непосредственно x1 и y1) клика мыши
 '''
 
@@ -106,14 +106,14 @@ f - поворот треугольника относительно начал�
 '''
 
 
-def Random():
+def random_():
     x0 = randint(100, 700)
     y0 = randint(100, 500)
     r0 = randint(30, 50)
     vx0 = randint(-120, 120)
     vy0 = randint(-120, 120)
     color0 = randint(0, 5)
-    return ([x0, y0, r0, vx0, vy0, color0])
+    return [x0, y0, r0, vx0, vy0, color0]
 
 
 '''
@@ -128,9 +128,9 @@ vx0, vy0 - скорости объекта по осям
 
 def nice_bro():
     rect(screen, YELLOW, (300, 200, 500, 300))
-    font = p.font.Font(None, 100)
-    text = font.render("Nice, bro", True, RED)
-    screen.blit(text, [400, 300])
+    font1 = p.font.Font(None, 100)
+    text1 = font1.render("Nice, bro", True, RED)
+    screen.blit(text1, [400, 300])
 
 
 '''
@@ -146,7 +146,7 @@ finished = False
 
 balls = []
 for i in range(10):
-    random = Random()
+    random = random_()
     x = random[0]
     y = random[1]
     r = random[2]
@@ -157,7 +157,7 @@ for i in range(10):
 
 triangles = []
 for i in range(4):
-    random = Random()
+    random = random_()
     x = random[0]
     y = random[1]
     r = random[2]
@@ -191,7 +191,7 @@ while not finished:
                 c = score(event.pos, j[0], j[1], j[2])
                 points += c
                 if c == 1:
-                    random = Random()
+                    random = random_()
                     j[0] = random[0]
                     j[1] = random[1]
                     j[2] = random[2]
@@ -202,7 +202,7 @@ while not finished:
                 c = score_tr(event.pos, j[0], j[1], j[2], f)
                 points += c
                 if c == 3:
-                    random = Random()
+                    random = random_()
                     j[0] = random[0]
                     j[1] = random[1]
                     j[2] = random[2]
@@ -212,7 +212,7 @@ while not finished:
                     nice_bro()
                     g += 1
 
-    if g > 0 and g < 100:
+    if 100 > g > 0:
         nice_bro()
         g += 1
     else:
@@ -238,7 +238,6 @@ while not finished:
         j[1] += j[4] * dt
         f += np.pi / 300
         new_triangle(j[0], j[1], j[2], f, j[5])
-
     p.display.update()
     screen.fill(BLACK)
 file = open('output.txt', 'a')
